@@ -1,0 +1,221 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700&display=swap");
+
+/* Main text */
+body {
+  font-family: "Roboto", sans-serif;
+  font-weight: 400;
+  line-height: 1.2;
+  color: #444;
+}
+
+/* Bold text */
+strong,
+b {
+  font-weight: 700;
+}
+
+/* Header fonts */
+h1 {
+  font-weight: 500;
+}
+
+h2,
+h3 {
+  font-family: "Roboto", sans-serif;
+  font-weight: 500;
+  color: #000;
+}
+
+/* Links */
+a:link {
+  color: #182B49;
+}
+
+a:visited {
+  color: #182B49;
+}
+
+a:hover {
+  color: #444;
+}
+
+/* Page numbers */
+@page :left {
+  @bottom-right {
+    font-size: 0.7rem;
+    content: counter(page);
+  }
+}
+
+@page :right {
+  @bottom-right {
+    font-size: 0.7rem;
+    content: counter(page);
+  }
+}
+
+/* Superscripts in PDF */
+sup {
+  font-size: 0.45rem;
+  font-style: italic;
+}
+
+/* Page margins */
+* {
+  --pagedjs-margin-right: 0.5in;
+  --pagedjs-margin-left: 0.5in;
+}
+
+/* Main sizing variables */
+:root {
+  --sidebar-width: 11rem;
+  --sidebar-background-color: #ffffff;
+  --sidebar-horizontal-padding: -0.2in;
+  --decorator-outer-dim: 10px;
+  --decorator-border: 2px solid #cbcfd2;
+  --main-width: 7in;
+  --date-block-width: 0.85in; /* wide enough for terms like "Spring 2025" */
+}
+
+/* Align dates visually with entry titles */
+.date {
+  position: relative;
+  top: -0.20rem;
+}
+
+/* Tighten spacing inside normal CV entries */
+.main-block:not(.concise) .details div {
+  padding-top: 0.005rem;
+  margin-top: 0.09in;
+  margin-bottom: 0.05in;
+}
+
+/* Reduce spacing when an entry has no place/location */
+.main-block:not(.concise)
+.details header:not(:has(.place)):not(:has(.location)) + div {
+  margin-top: 0.02in;
+}
+
+/* Tighten spacing above place/location lines */
+.details .place {
+  margin-top: 0.1rem;
+}
+
+/* Tighten spacing for lists */
+#main ul {
+  margin-top: 0.04in;
+  margin-bottom: 0.04in;
+}
+
+#main li {
+  margin-bottom: 0.01in;
+}
+
+/* Center uncentered icons */
+.fa-star {
+  margin-left: -1px;
+}
+
+/* Number links at the bottom */
+#links li {
+  list-style-type: decimal;
+}
+
+/* Remove pseudo-bullets from aside */
+.aside li::before {
+  content: none;
+}
+
+/* Move aside lists closer to the start */
+.aside ul {
+  padding-left: 1rem;
+}
+
+/* Sidebar formatting */
+.aside {
+  width: calc(var(--sidebar-width) + 9px);
+  line-height: 1.2;
+  font-size: 0.75rem;
+  margin-top: -0.35in;
+}
+
+/* Timeline dot color */
+.decorator::after {
+  background-color: #182B49;
+}
+
+/* Sections without timelines */
+.section.no-timeline h2::after {
+  content: none;
+}
+
+.section.no-timeline h2 {
+  padding-bottom: 0.4rem;
+}
+
+/* ---- Additions for this CV ---- */
+
+/* Content placed directly under a section heading (text blocks, notes, plain
+   lists) lines up with the entry titles instead of the page edge */
+#main .level2:not(#title) > p,
+#main .level2.no-timeline > ul {
+  margin-left: calc(var(--date-block-width) + var(--decorator-horizontal-margin));
+  font-size: 0.75rem;
+}
+
+#main .level2:not(#title) > p {
+  margin-top: 0.15in;
+  margin-bottom: 0;
+}
+
+/* "* denotes student author" line under a section heading */
+#main .level2 > p.section-note {
+  font-style: italic;
+}
+
+/* Keep the timeline line running past notes/paragraphs under a heading.
+   Padding (not margin) so the line covers the space above the text too. */
+#main .level2:not(#title):not(.no-timeline) > p {
+  position: relative;
+  margin-top: 0;
+  padding-top: 0.12in;
+}
+
+#main .level2:not(#title):not(.no-timeline) > p::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: calc(-1 * var(--decorator-horizontal-margin));
+  border-left: var(--decorator-border);
+}
+
+/* Plain bullet-list sections (Interests, Technical Skills, Affiliations) */
+#main .level2.no-timeline > ul {
+  margin-top: 0.15in;
+}
+
+/* Blue section headings and icons (the blue from nstrayer/cv) */
+:root {
+  --accent-color: hsl(210, 100%, 35%);
+}
+
+#main h2,
+#main h2 > i {
+  color: var(--accent-color);
+}
+
+/* Entries with no line under the title: keep the location pin on the title line */
+.details header {
+  position: relative;
+}
+
+.details header:not(:has(.place)) .location {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.details header:not(:has(.place)):has(.location) h3 {
+  padding-right: 1.5in;
+}

@@ -1,0 +1,47 @@
+# Rebuilds index.html and Rayo_CV.pdf from the Google Sheet and publishes them.
+# Run it from the repo's Actions tab: "Rebuild CV" -> "Run workflow".
+name: Rebuild CV
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: r-lib/actions/setup-pandoc@v2
+
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          use-public-rspm: true
+
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          packages: |
+            any::rmarkdown
+            any::pagedown
+            any::googlesheets4
+            any::dplyr
+            any::tidyr
+            any::stringr
+            any::lubridate
+            any::purrr
+            any::glue
+            any::readr
+            any::fs
+
+      - name: Build HTML and PDF
+        run: Rscript render_cv.R
+
+      - name: Commit rebuilt CV
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html Rayo_CV.pdf
+          git diff --cached --quiet || git commit -m "Rebuild CV from Google Sheet"
+          git push

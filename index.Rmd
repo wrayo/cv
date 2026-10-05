@@ -1,0 +1,235 @@
+---
+title: "William Rayo's CV"
+author: William Rayo
+date: "`r Sys.Date()`"
+params:
+  pdf_mode:
+    value: false
+  # Where the CV data lives: one Google Sheet with tabs entries, contact_info, text_blocks.
+  # To build from the local csvs instead, use:  value: "data"
+  data_location:
+    value: "https://docs.google.com/spreadsheets/d/1V3lM1eQ4JJibDTZ-xjmFPBTUH9wrQSD21DGzjgBvigI"
+output:
+  pagedown::html_resume:
+    css: ['resume', 'dd_cv.css']
+    self_contained: true
+---
+``` {css, echo=FALSE}
+/* Get rid off the sidebar from the second page */
+/* (source:https://www.anabellelaurent.com/slides/rladies_pagedown/cvwithpagedown#18 */
+.pagedjs_page:not(:first-of-type) {
+  --sidebar-width: 0rem;
+  --sidebar-background-color: #ffffff;
+  --main-width: 7in;
+  --decorator-horizontal-margin: 0.2in;
+}
+```
+
+```{r, include=FALSE}
+knitr::opts_chunk$set(
+  results='asis',
+  echo = FALSE
+)
+
+source("cv_printing_functions.R")
+
+# Read in all data and initialize a CV printer object.
+# data_location is the "data" folder of csvs, or a Google Sheet URL
+# (set it in the params at the top of this file).
+CV <- create_CV_object(
+  data_location = params$data_location,
+  pdf_mode = params$pdf_mode
+)
+
+```
+
+
+```{r}
+# When in pdf export mode the little dots are unaligned, so fix that with some conditional CSS.
+if(params$pdf_mode) {
+    cat("
+<style>
+:root{
+  --decorator-outer-offset-left: -6.5px;
+}
+</style>")
+}
+```
+
+
+Aside
+================================================================================
+
+
+Contact {#contact}
+--------------------------------------------------------------------------------
+
+```{r}
+CV <- print_contact_info(CV)
+```
+
+Updated `r format(Sys.Date(), "%B %Y")`
+
+
+Main
+================================================================================
+
+William Rayo, Ph.D. {#title}
+--------------------------------------------------------------------------------
+
+&nbsp;Curriculum Vitae
+
+```{r}
+# Optional: add a row with loc = "intro" to text_blocks to show a paragraph here
+CV <- print_text_block(CV, "intro")
+```
+
+
+Positions and Appointments {data-icon=building-columns data-concise=true}
+--------------------------------------------------------------------------------
+
+```{r}
+CV <- print_section(CV, 'appointments')
+```
+
+
+Education {data-icon=graduation-cap data-concise=true}
+--------------------------------------------------------------------------------
+
+```{r}
+CV <- print_section(CV, 'education')
+```
+
+
+Interests {.no-timeline data-icon=lightbulb}
+--------------------------------------------------------------------------------
+
+```{r}
+# Optional: add a row with loc = "interests" to text_blocks to show a paragraph here
+CV <- print_text_block(CV, "interests")
+CV <- print_list(CV, 'interests')
+```
+
+
+Awards and Honors {data-icon=award data-concise=true}
+--------------------------------------------------------------------------------
+
+```{r}
+CV <- print_section(CV, 'awards')
+```
+
+
+Teaching Experience: Instructor of Record {data-icon=chalkboard-user}
+--------------------------------------------------------------------------------
+
+```{r}
+CV <- print_section(CV, 'teaching_ior')
+```
+
+
+Graduate Teaching Experience {data-icon=person-chalkboard}
+--------------------------------------------------------------------------------
+
+```{r}
+CV <- print_section(CV, 'teaching_grad')
+```
+
+
+Secondary Teaching {data-icon=school}
+--------------------------------------------------------------------------------
+
+```{r}
+CV <- print_section(CV, 'teaching_secondary')
+```
+
+
+Mentorship {data-icon=user-graduate}
+--------------------------------------------------------------------------------
+
+```{r}
+CV <- print_section(CV, 'mentorship')
+```
+
+
+Publications {data-icon=book}
+--------------------------------------------------------------------------------
+
+<p class="section-note">&#42; denotes student author</p>
+
+```{r}
+CV <- print_section(CV, 'pubs')
+```
+
+
+Presentations {data-icon=microphone}
+--------------------------------------------------------------------------------
+
+<p class="section-note">&#42; denotes student author</p>
+
+```{r}
+CV <- print_section(CV, 'presentations')
+```
+
+
+Poster Presentations {data-icon=note-sticky}
+--------------------------------------------------------------------------------
+
+<p class="section-note">&#42; denotes student author</p>
+
+```{r}
+CV <- print_section(CV, 'posters')
+```
+
+
+Invited Talks, Guest Lectures, and Workshops {data-icon=comments}
+--------------------------------------------------------------------------------
+
+```{r}
+CV <- print_section(CV, 'talks')
+```
+
+
+Professional Service {data-icon=handshake-angle}
+--------------------------------------------------------------------------------
+
+```{r}
+CV <- print_section(CV, 'prof_service')
+```
+
+
+University and School Service {data-icon=people-group}
+--------------------------------------------------------------------------------
+
+```{r}
+CV <- print_section(CV, 'uni_service')
+```
+
+
+Certifications and Specialized Training {data-icon=certificate data-concise=true}
+--------------------------------------------------------------------------------
+
+```{r}
+CV <- print_section(CV, 'training')
+```
+
+
+Technical Skills {.no-timeline data-icon=laptop-code}
+--------------------------------------------------------------------------------
+
+```{r}
+CV <- print_list(CV, 'skills')
+```
+
+
+Organization Affiliations {.no-timeline data-icon=users}
+--------------------------------------------------------------------------------
+
+```{r}
+CV <- print_list(CV, 'affiliations')
+```
+
+
+```{r}
+# Only prints when pdf_mode = TRUE (links become numbered footnotes)
+CV <- print_links(CV)
+```

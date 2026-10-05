@@ -1,0 +1,11 @@
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+.secrets
+.DS_Store
+render.log
+index.knit.md
+*_files/
+.impeccable/
+data/
