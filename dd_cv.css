@@ -219,3 +219,13 @@ sup {
 .details header:not(:has(.place)):has(.location) h3 {
   padding-right: 1.5in;
 }
+
+/* Always light, even when the browser prefers dark */
+:root {
+  color-scheme: only light;
+}
+
+/* The sidebar (already absolutely positioned) sits partly under the title block; keep it on top */
+.aside {
+  z-index: 1;
+}

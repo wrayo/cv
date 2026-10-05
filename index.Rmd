@@ -13,6 +13,8 @@ output:
   pagedown::html_resume:
     css: ['resume', 'dd_cv.css']
     self_contained: true
+    includes:
+      in_header: header.html
 ---
 ``` {css, echo=FALSE}
 /* Get rid off the sidebar from the second page */
